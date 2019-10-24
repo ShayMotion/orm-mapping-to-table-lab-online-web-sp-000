@@ -24,10 +24,14 @@
     DB[:conn].execute("DROP TABLE IF EXISTS students")
   end
   
-    def save
-      @@all << self 
-      self.id = @@all.size
-    end
+   def save
+    if self.id
+      self.update
+    else
+      sql = <<-SQL 
+        INSERT INTO students (name, grade)
+        VALUES (?,?)
+      SQL
     
     def self.create(name, grade)
       Student.new(name, grade)
